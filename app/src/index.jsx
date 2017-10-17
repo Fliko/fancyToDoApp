@@ -1,11 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import App from './components/App';
+import reducer from './reducers/reducer';
 
-function App() {
-  return(
-    <div id='init'>Hello Worlds is React!</div>
-  );
-}
+const store = createStore(reducer);
 
-render(<App/>, document.getElementById('app'));
-export default App;
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root'),
+);
