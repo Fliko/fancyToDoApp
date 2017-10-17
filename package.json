@@ -6,7 +6,7 @@
   "scripts": {
     "prod": "NODE_ENV=production webpack --config webpack/prod.config.js",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/dev.config.js --inline --hot --contentBase app/public/",
-    "test": "mocha --reporter spec -w app/spec/test_helper.js app/spec/*.js"
+    "test": "mocha --reporter spec -w app/spec/test_helper.js app/spec/*.js app/src/"
   },
   "repository": {
     "type": "git",
