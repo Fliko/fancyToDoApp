@@ -1,0 +1,46 @@
+{
+  "name": "ftda",
+  "version": "1.0.0",
+  "description": "Our spec in user voice: >As a San Antonio tourist,  I'd like an app that lets me select a few destinations on a map and then get the fastest route to hit all points. I'll probably be planning out multiple locations, so I'd like a history of all my past destinations and routes. > >In detail: > >Use the Google Maps JavaScript API to create an app which will let you drop a pin on a few  locations, click a button, and then suggest the most efficient (by time) way to visit all these places.  Your application should have a view with a history of all these times/routes. If you select a route in the history it should show the the route/time on the map.",
+  "main": "index.js",
+  "scripts": {
+    "prod": "NODE_ENV=production webpack --config webpack/prod.config.js",
+    "start": "NODE_ENV=development webpack --config webpack/dev.config.js --watch",
+    "server": "nodemon server.js",
+    "test": "mocha --reporter spec -w app/spec/test_helper.js app/spec/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fliko/fancyToDoApp.git"
+  },
+  "author": "Fliko (Trace Baxter)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fliko/fancyToDoApp/issues"
+  },
+  "homepage": "https://github.com/Fliko/fancyToDoApp#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.1.2",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
+    "expect": "^21.2.1",
+    "express": "^4.16.2",
+    "jsdom": "^11.3.0",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "react-addons-test-utils": "^15.6.2",
+    "react-test-renderer": "^16.0.0",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
+    "webpack": "^3.7.1",
+    "webpack-merge": "^4.1.0"
+  },
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "redux": "^3.7.2"
+  }
+}
