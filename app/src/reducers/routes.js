@@ -4,6 +4,8 @@ const routes = (state = [], action) => {
       return [...state, { id: action.id, name: action.name }];
     case 'REMOVE_ROUTE':
       return state.filter((route)=> route.id !== action.id);
+    default:
+      return state;
   }
 }
 

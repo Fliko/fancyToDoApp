@@ -8,9 +8,9 @@ Our spec in user voice:
 >Use the Google Maps JavaScript API to create an app which will let you drop a pin on a few  locations, click a button, and then suggest the most efficient (by time) way to visit all these places.  Your application should have a view with a history of all these times/routes. If you select a route in the history it should show the the route/time on the map.
 
 ## Tasks
-- [ ] Init react/redux and webpack dev and prod configurations and make them easily swappable
+- [x] Init react/redux and webpack dev and prod configurations and make them easily swappable
 - [ ] Create a simple todo application
-  - [ ] Application accepts input from a text field
+  - [x] Application accepts input from a text field
   - [ ] Submitted input is displayed in a list below
   - [ ] Submitted tasks can be removed
   - [ ] Tasks can be completed

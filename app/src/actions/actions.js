@@ -5,10 +5,7 @@ export const addRoute = name => ({
   id: curId++
 });
 
-export const removeRoute = id => {
-  curId--;
-  return {
-    type: 'REMOVE_ROUTE',
-    id: id
-  }
-}
+export const removeRoute = id => ({
+  type: 'REMOVE_ROUTE',
+  id: id
+});
