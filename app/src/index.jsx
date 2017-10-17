@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 function App() {
   return(
-    <div id='init'>Hello World this is React!</div>
+    <div id='init'>Hello Worlds is React!</div>
   );
 }
 
