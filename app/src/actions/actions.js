@@ -9,3 +9,14 @@ export const removeRoute = id => ({
   type: 'REMOVE_ROUTE',
   id: id
 });
+
+export const saveMap = (name, data)=> ({
+  type: 'SAVE_MAP',
+  name: name,
+  data: data
+});
+
+export const showMap = (data) => ({
+  type: 'SHOW_MAP',
+  data:data
+});

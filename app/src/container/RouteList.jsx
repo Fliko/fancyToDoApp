@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { removeRoute } from '../actions/actions';
 
 let RouteList = ({ routes, removeRoute } ) => {
-  console.log(removeRoute);
   return (
     <ul>
       {routes.map((route) => {
