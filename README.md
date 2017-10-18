@@ -9,11 +9,10 @@ Our spec in user voice:
 
 ## Tasks
 - [x] Init react/redux and webpack dev and prod configurations and make them easily swappable
-- [ ] Create a simple todo application
+- [x] Create a simple todo application
   - [x] Application accepts input from a text field
   - [x] Submitted input is displayed in a list below
   - [x] Submitted tasks can be removed
-  - [ ] Tasks can be completed
 - [ ] Integrate in google API
   - [ ] Add places autocomplete to text input
   - [ ] Add in google maps
