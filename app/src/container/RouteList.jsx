@@ -1,15 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { connect } from 'react-redux';
-// import Remove from '../components/Remove.jsx';
+import { removeRoute } from '../actions/actions';
 
-let RouteList = ({ routes, removeRoute }) => {
+let RouteList = ({ routes, removeRoute } ) => {
+  console.log(removeRoute);
   return (
     <ul>
       {routes.map((route) => {
         return(<li key={route.id}>
           {route.name}
-          {/* <Remove remove={()=>removeRoute(route.id)}/> */}
+          <button onClick={()=>removeRoute(route.id)}>R</button>
         </li>)
       })}
     </ul>

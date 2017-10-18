@@ -12,7 +12,7 @@ Our spec in user voice:
 - [ ] Create a simple todo application
   - [x] Application accepts input from a text field
   - [x] Submitted input is displayed in a list below
-  - [ ] Submitted tasks can be removed
+  - [x] Submitted tasks can be removed
   - [ ] Tasks can be completed
 - [ ] Integrate in google API
   - [ ] Add places autocomplete to text input

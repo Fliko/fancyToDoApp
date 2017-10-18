@@ -13,4 +13,9 @@ describe('RouteList', ()=> {
   it('should render a list of routes', () => {
     expect(wrapper.find('ul').at(0).children()).to.have.length(2);
   });
+  it('should remove List item from routes', () => {
+    let remove = wrapper.find('button').at(0);
+    remove.simulate('click');
+    expect(wrapper.find('ul').at(0).children()).to.have.length(1);
+  });
 });
