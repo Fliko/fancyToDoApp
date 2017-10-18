@@ -11,7 +11,7 @@ Our spec in user voice:
 - [x] Init react/redux and webpack dev and prod configurations and make them easily swappable
 - [ ] Create a simple todo application
   - [x] Application accepts input from a text field
-  - [ ] Submitted input is displayed in a list below
+  - [x] Submitted input is displayed in a list below
   - [ ] Submitted tasks can be removed
   - [ ] Tasks can be completed
 - [ ] Integrate in google API
