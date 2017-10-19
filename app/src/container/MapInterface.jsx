@@ -3,64 +3,75 @@ import { connect } from 'react-redux';
 import { addRoute } from '../actions/actions';
 import Map from '../components/Map.jsx';
 
-let MapApi = function(mapObj, mapElement, searchElement) {
+let MapApi = function(mapObj, mapElement, searchElement, saveMarker) {
+  this.savedMarkers = [];
   this.map = new google.maps.Map(mapElement, {
     center: mapObj.center,
     zoom: mapObj.zoom
   });
+  this.bounds;
+
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(saveMarker);
   this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(searchElement);
   this.autocomplete = new google.maps.places.Autocomplete(searchElement);
 
-  let infowindow = new google.maps.InfoWindow();
-  this.initInfoWindow();
-  let infowindowContent = document.getElementById('infowindow-content');
-  infowindow.setContent(infowindowContent);
+  this.infowindow = new google.maps.InfoWindow();
 
-  let marker = new google.maps.Marker({map: this.map});
+  this.marker = new google.maps.Marker({map: this.map});
 
   this.autocomplete.addListener('place_changed', () => {
-    this.changePlace(infowindow, marker);
+    this.changePlace();
+  });
+  this.marker.addListener('click', () => {
+    this.infowindow.open(this.map, this.marker);
   });
 }
 
 MapApi.prototype.getCenter = function() {
   return this.map.getCenter();
 };
-
 MapApi.prototype.getZoom = function() {
   return this.map.getZoom();
 };
-
-MapApi.prototype.initInfoWindow = function() {
-  let iw = document.createElement('div');
-  iw.id = 'infowindow-content';
-  let name = document.createElement('p');
-  name.id = 'place-name';
-  name.style.fontWeight = 'bold';
-  let addr = document.createElement('span');
-  addr.id = 'place-address';
-  iw.appendChild(name);
-  iw.appendChild(addr);
-  document.body.appendChild(iw);
+MapApi.prototype.saveMarker = function() {
+  let marker = this.marker;
+  let infowindow = this.infowindow;
+  this.savedMarkers.push([infowindow, marker]);
+  marker.addListener('click', () => {
+    infowindow.open(this.map, marker);
+  });
+  this.setBounds();
+  this.marker = new google.maps.Marker({map: this.map});
+  this.infowindow = new google.maps.InfoWindow();
 }
-MapApi.prototype.changePlace = function(infowindow, marker) {
-  infowindow.close();
-  marker.setVisible(false);
+MapApi.prototype.setBounds = function() {
+  this.bounds = new google.maps.LatLngBounds();
+  for(let i = 0; i < this.savedMarkers.length;i++) {
+    this.bounds.extend(this.savedMarkers[i][1].getPosition());
+  }
+  this.bounds.extend(this.marker.getPosition());
+  this.map.fitBounds(this.bounds);
+}
+MapApi.prototype.showSaved = function() {
+  for(let i = 0; i < this.savedMarkers.length;i++) {
+    this.savedMarkers[i][1].setVisible(true);
+  }
+}
+MapApi.prototype.changePlace = function() {
+  this.infowindow.close();
+  this.marker.setVisible(false);
+  this.showSaved();
   let place = this.autocomplete.getPlace();
   if(!place.geometry){
     alert('We are sorry this app does not search, please use a suggested address. thank you :)');
     return;
   }
-  if (place.geometry.viewport) {
-    this.map.fitBounds(place.geometry.viewport);
-  } else {
-    this.map.setCenter(place.geometry.location);
-    this.map.setZoom(14);
-  }
-  marker.setPosition(place.geometry.location);
-  marker.setVisible(true);
+  this.marker.setPosition(place.geometry.location);
+  this.marker.setTitle(place.name);
+  this.setBounds();
+  this.marker.setVisible(true);
 
-  var address = '';
+  let address = '';
   if (place.address_components) {
     address = [
       (place.address_components[0] && place.address_components[0].short_name || ''),
@@ -68,10 +79,12 @@ MapApi.prototype.changePlace = function(infowindow, marker) {
       (place.address_components[2] && place.address_components[2].short_name || '')
     ].join(' ');
   }
-
-  infowindowContent.children['place-name'].textContent = place.name;
-  infowindowContent.children['place-address'].textContent = address;
-  infowindow.open(map, marker);
+  this.infowindow.setContent(`<div id="infowindow-content">
+      <img src="${place.icon}" width="16" height="16" id="place-icon">
+      <span id="place-name"  class="title"><strong>${place.name}</strong></span><br>
+      <span id="place-address">${address}</span>
+    </div>`);
+  this.infowindow.open(this.map, this.marker);
 }
 const mapStateToProps = state => ({
     mapState: state.curMap,
