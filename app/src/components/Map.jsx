@@ -19,7 +19,8 @@ class Map extends React.Component {
     let data = {center: this.map.getCenter(),
                 zoom: this.map.getZoom(),
               };
-    this.props.saveMap(name, data);
+    if(!name) alert('Please name your Map');
+    else this.props.saveMap(name, data);
   }
   render(){
     return(
