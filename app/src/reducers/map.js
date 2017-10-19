@@ -1,4 +1,4 @@
-const map = (state = [], action) => {
+const map = (state = {}, action) => {
   switch (action.type) {
     case 'SHOW_MAP':
       return Object.assign({},action.data);

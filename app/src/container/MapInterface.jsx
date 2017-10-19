@@ -25,7 +25,12 @@ let MapApi = function(mapObj, mapElement, searchElement, saveMarker) {
     this.infowindow.open(this.map, this.marker);
   });
 }
-
+MapApi.prototype.getMap = function() {
+  return this.map;
+}
+MapApi.prototype.useData = function(map) {
+  this.map = map;
+}
 MapApi.prototype.getCenter = function() {
   return this.map.getCenter();
 };

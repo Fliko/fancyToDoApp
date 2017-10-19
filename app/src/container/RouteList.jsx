@@ -1,15 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { connect } from 'react-redux';
-import { removeRoute } from '../actions/actions';
+import { removeRoute, showMap } from '../actions/actions';
 
-let RouteList = ({ routes, removeRoute } ) => {
+let RouteList = ({ routes, removeRoute, showMap } ) => {
   return (
     <ul>
       {routes.map((route) => {
         return(<li key={route.id}>
           {route.name}
-          <button onClick={()=>removeRoute(route.id)}>R</button>
+          <button onClick={()=>removeRoute(route.id)}>Remove</button>
+          <button onClick={()=>showMap(route.name, route.data)}>Show</button>
         </li>)
       })}
     </ul>
@@ -23,6 +24,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   removeRoute: id => {
     dispatch(removeRoute(id))
+  },
+  showMap: (name, data) => {
+    dispatch(showMap(name, data))
   }
 });
 

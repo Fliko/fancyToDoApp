@@ -14,6 +14,12 @@ class Map extends React.Component {
   componentDidMount() {
     this.initMap();
   }
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.mapState !== this.props.mapState) {
+      this.map = initMap();
+      this.map.useData(this.props.mapState);
+    }
+  }
   initMap() {
     let mapObj = {center: {lat:29.4241, lng: -98.4936}, zoom: 11};
     let map = document.getElementById('map');
@@ -21,12 +27,14 @@ class Map extends React.Component {
     let marker = document.getElementById('marker');
     this.map = new this.props.Maps(mapObj, map, search, marker);
   }
-  handleClick(e) {
+  saveMap(e) {
     e.preventDefault();
     let name = document.getElementById('mapName').value;
-    let data = {center: this.map.getCenter(),
-                zoom: this.map.getZoom(),
-              };
+    // let data = {center: this.map.getCenter(),
+    //             zoom: this.map.getZoom(),
+    //             waypoints: this.state.wayPoints
+    //           };
+    let data = this.map.getMap();
     if(!name) alert('Please name your Map');
     else this.props.saveMap(name, data);
   }
@@ -52,7 +60,7 @@ class Map extends React.Component {
         </div>
         <button id='marker' onClick={this.saveMarker.bind(this)}>Save Marker</button>
         <WayPoints wayPoints={this.state.wayPoints} removeMarker={this.removeMarker.bind(this)}/>
-        <button onClick={this.handleClick}>Save Map</button>
+        <button onClick={this.saveMap.bind(this)}>Save Map</button>
         <button onClick={this.clearMap.bind(this)}>Clear Map</button>
       </div>
     );
