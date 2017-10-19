@@ -12,6 +12,9 @@ class Map extends React.Component {
     this.map;
   }
   componentDidMount() {
+    this.initMap();
+  }
+  initMap() {
     let mapObj = {center: {lat:29.4241, lng: -98.4936}, zoom: 11};
     let map = document.getElementById('map');
     let search = document.getElementById('search');
@@ -29,9 +32,16 @@ class Map extends React.Component {
   }
   saveMarker(e) {
     e.preventDefault();
-    this.map.saveMarker();
-    console.log(this.map.savedMarkers)
-    this.setState({wayPoints: [... this.map.savedMarkers]});
+    this.setState({wayPoints: [... this.state.wayPoints, this.map.saveMarker()]});
+    document.getElementById('search').value = '';
+  }
+  removeMarker(marker) {
+    this.setState({wayPoints: this.map.removeMarker(marker)})
+  }
+  clearMap(){
+    if(!confirm('Unsaved progress will be lost!')) return;
+    this.initMap();
+    this.setState({wayPoints: []});
   }
   render(){
     return(
@@ -41,8 +51,9 @@ class Map extends React.Component {
           <input id='search' type="text"></input>
         </div>
         <button id='marker' onClick={this.saveMarker.bind(this)}>Save Marker</button>
-        <WayPoints wayPoints={this.state.wayPoints}/>
+        <WayPoints wayPoints={this.state.wayPoints} removeMarker={this.removeMarker.bind(this)}/>
         <button onClick={this.handleClick}>Save Map</button>
+        <button onClick={this.clearMap.bind(this)}>Clear Map</button>
       </div>
     );
   }

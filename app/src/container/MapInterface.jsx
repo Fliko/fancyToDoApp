@@ -16,7 +16,6 @@ let MapApi = function(mapObj, mapElement, searchElement, saveMarker) {
   this.autocomplete = new google.maps.places.Autocomplete(searchElement);
 
   this.infowindow = new google.maps.InfoWindow();
-
   this.marker = new google.maps.Marker({map: this.map});
 
   this.autocomplete.addListener('place_changed', () => {
@@ -41,9 +40,13 @@ MapApi.prototype.saveMarker = function() {
     infowindow.open(this.map, marker);
   });
   this.setBounds();
-  this.marker = new google.maps.Marker({map: this.map});
-  this.infowindow = new google.maps.InfoWindow();
+  return this.savedMarkers[this.savedMarkers.length - 1];
 }
+MapApi.prototype.removeMarker = function (marker) {
+    this.savedMarkers = this.savedMarkers.filter(point => point !== marker);
+    console.log(this.savedMarkers);
+    return this.savedMarkers;
+};
 MapApi.prototype.setBounds = function() {
   this.bounds = new google.maps.LatLngBounds();
   for(let i = 0; i < this.savedMarkers.length;i++) {
@@ -52,14 +55,21 @@ MapApi.prototype.setBounds = function() {
   this.bounds.extend(this.marker.getPosition());
   this.map.fitBounds(this.bounds);
 }
+
+//Method for changing search result and its helpers
 MapApi.prototype.showSaved = function() {
   for(let i = 0; i < this.savedMarkers.length;i++) {
     this.savedMarkers[i][1].setVisible(true);
   }
 }
-MapApi.prototype.changePlace = function() {
+MapApi.prototype.initPlace = function() {
+  this.marker = new google.maps.Marker({map: this.map});
+  this.infowindow = new google.maps.InfoWindow();
   this.infowindow.close();
   this.marker.setVisible(false);
+}
+MapApi.prototype.changePlace = function() {
+  this.initPlace();
   this.showSaved();
   let place = this.autocomplete.getPlace();
   if(!place.geometry){
