@@ -6,7 +6,6 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      curMap: props.mapState,
       wayPoints: []
     };
     this.map;
@@ -16,9 +15,13 @@ class Map extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.mapState !== this.props.mapState) {
-      this.map = initMap();
-      this.map.useData(this.props.mapState);
+      this.openMap(this.props.mapState);
     }
+  }
+  openMap(map) {
+    document.getElementById('map').remove();
+    document.body.appendChild(map);
+
   }
   initMap() {
     let mapObj = {center: {lat:29.4241, lng: -98.4936}, zoom: 11};
@@ -30,11 +33,9 @@ class Map extends React.Component {
   saveMap(e) {
     e.preventDefault();
     let name = document.getElementById('mapName').value;
-    // let data = {center: this.map.getCenter(),
-    //             zoom: this.map.getZoom(),
-    //             waypoints: this.state.wayPoints
-    //           };
-    let data = this.map.getMap();
+    let map = document.getElementById('map');
+    let data = map;
+    this.clearMap();
     if(!name) alert('Please name your Map');
     else this.props.saveMap(name, data);
   }
@@ -48,6 +49,10 @@ class Map extends React.Component {
   }
   clearMap(){
     if(!confirm('Unsaved progress will be lost!')) return;
+    document.getElementById('map').remove();
+    let map = document.createElement('div');
+    map.id = 'map';
+    document.body.appendChild(map);
     this.initMap();
     this.setState({wayPoints: []});
   }

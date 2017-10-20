@@ -25,21 +25,13 @@ let MapApi = function(mapObj, mapElement, searchElement, saveMarker) {
     this.infowindow.open(this.map, this.marker);
   });
 }
-MapApi.prototype.getMap = function() {
-  return this.map;
+MapApi.prototype.setMap = function (markers) {
+  for(let i = 0; i < markers.length; i++) {
+    console.log(markers[i][1]);
+    this.saveMarker(markers[i][1], markers[i][0]);
+  }
 }
-MapApi.prototype.useData = function(map) {
-  this.map = map;
-}
-MapApi.prototype.getCenter = function() {
-  return this.map.getCenter();
-};
-MapApi.prototype.getZoom = function() {
-  return this.map.getZoom();
-};
-MapApi.prototype.saveMarker = function() {
-  let marker = this.marker;
-  let infowindow = this.infowindow;
+MapApi.prototype.saveMarker = function(marker = this.marker, infowindow = this.infowindow) {
   this.savedMarkers.push([infowindow, marker]);
   marker.addListener('click', () => {
     infowindow.open(this.map, marker);
@@ -49,7 +41,6 @@ MapApi.prototype.saveMarker = function() {
 }
 MapApi.prototype.removeMarker = function (marker) {
     this.savedMarkers = this.savedMarkers.filter(point => point !== marker);
-    console.log(this.savedMarkers);
     return this.savedMarkers;
 };
 MapApi.prototype.setBounds = function() {
