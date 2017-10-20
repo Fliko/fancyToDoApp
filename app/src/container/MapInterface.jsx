@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addRoute } from '../actions/actions';
-import Map from '../components/Map.jsx';
+import MapUI from '../components/MapUI.jsx';
 
 let MapApi = function(mapObj, mapElement, searchElement, saveMarker) {
   this.savedMarkers = [];
@@ -103,4 +103,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+export default connect(mapStateToProps, mapDispatchToProps)(MapUI);
