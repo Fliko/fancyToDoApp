@@ -47,13 +47,8 @@ class MapUI extends React.Component {
     let search = document.createElement('input');
     search.id = 'search';
     search.type = 'text';
-    let save = document.createElement('button');
-    save.id = 'marker';
-    save.innerHTML = 'Save Marker';
     map.appendChild(search);
-    map.appendChild(save);
     document.getElementById('container').appendChild(map);
-    document.getElementById('marker').addEventListener('click', this.saveMarker.bind(this));
     this.initMap();
   }
   saveMarker(e) {
@@ -69,10 +64,15 @@ class MapUI extends React.Component {
     this.initMap();
     this.setState({wayPoints: []});
   }
+  getRoute() {
+    this.map.calculateRoute();
+  }
   render(){
     return(
       <div>
-        <Map saveMarker={this.saveMarker.bind(this)}/>
+        <Map />
+        <button id='marker' onClick={this.saveMarker.bind(this)}>Save Marker</button>
+        <button id='router' onClick={this.getRoute.bind(this)}>Calculate Route</button>
         <WayPoints wayPoints={this.state.wayPoints} removeMarker={this.removeMarker.bind(this)}/>
         <button onClick={this.saveMap.bind(this)}>Save Map</button>
         <button onClick={this.clearMap.bind(this)}>Clear Map</button>
