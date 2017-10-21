@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addRoute } from '../actions/actions';
+import { addRoute, editRoute } from '../actions/actions';
 import MapUI from '../components/MapUI.jsx';
 
 let MapApi = function(mapObj, mapElement, searchElement) {
@@ -14,6 +14,9 @@ let MapApi = function(mapObj, mapElement, searchElement) {
   this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(searchElement);
   this.autocomplete = new google.maps.places.Autocomplete(searchElement);
 
+  this.directionsService = new google.maps.DirectionsService;
+  this.directionsDisplay = new google.maps.DirectionsRenderer;
+  this.directionsDisplay.setMap(this.map);
   this.infowindow = new google.maps.InfoWindow();
   this.marker = new google.maps.Marker({map: this.map});
 
@@ -24,49 +27,29 @@ let MapApi = function(mapObj, mapElement, searchElement) {
     this.infowindow.open(this.map, this.marker);
   });
 }
-MapApi.prototype.setMap = function (markers) {
-  for(let i = 0; i < markers.length; i++) {
-    console.log(markers[i][1]);
-    this.saveMarker(markers[i][1], markers[i][0]);
-  }
-}
-MapApi.prototype.makeRequest = function(method, url, params) {
-  return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.onload = function () {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: xhr.statusText
+MapApi.prototype.getRoute = function (position) {
+  let endpoint = position.coords.latitude+','+position.coords.longitude;
+  let stops = this.savedMarkers.reduce((pnts,pos)=>{
+    pnts.push({location:pos[1].title, stopover:true});
+    return pnts;
+  },[]);
+  this.directionsService.route({
+          origin: endpoint,
+          destination: endpoint,
+          waypoints: stops,
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+        }, (response, status) => {
+          if (status === 'OK') {
+            this.directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
         });
-      }
-    };
-    xhr.onerror = function () {
-      reject({
-        status: this.status,
-        statusText: xhr.statusText
-      });
-    };
-    if(params) {
-      xhr.setRequestHeader('url', params);
-    }
-    xhr.send();
-  });
-}
-MapApi.prototype.getQuery = function (position) {
-  let start = position.coords.latitude+','+position.coords.longitude;
-  let stops = this.savedMarkers.reduce((str,pos)=>{
-    return str+'|'+pos[1].position.lat()+','+pos[1].position.lng();
-  },'');
-  let route = `https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${start}&waypoints=optimize:true${stops}&key=${API_KEY}`;
-  this.makeRequest('GET', '/route' ,route).then((data)=>console.log(data));
 }
 MapApi.prototype.calculateRoute = function () {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(this.getQuery.bind(this));
+    navigator.geolocation.getCurrentPosition(this.getRoute.bind(this));
   } else {
     return;
   }
@@ -140,6 +123,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveMap: (name, data) => {
     dispatch(addRoute(name, data));
+  },
+  editRoute: (id, data) => {
+    dispatch(editRoute(id, data));
   }
 });
 

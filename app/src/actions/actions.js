@@ -1,7 +1,6 @@
 let curId = 0;
-export const addRoute = (name, data) => ({
+export const addRoute = (data) => ({
   type: 'ADD_ROUTE',
-  name: name,
   data: data,
   id: curId++
 });
@@ -11,8 +10,14 @@ export const removeRoute = id => ({
   id: id
 });
 
-export const showMap = (name,data) => ({
+export const showMap = (id,data) => ({
   type: 'SHOW_MAP',
-  name: name,
+  id: id,
+  data:data
+});
+
+export const editRoute = (id,data) => ({
+  type: 'EDIT_ROUTE',
+  id:id,
   data:data
 });

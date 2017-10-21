@@ -7,6 +7,7 @@ class MapUI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      editing: false,
       wayPoints: []
     };
     this.map;
@@ -16,8 +17,10 @@ class MapUI extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.mapState !== this.props.mapState) {
-      this.initMap();
-      this.openMap(this.props.mapState);
+      this.openMap(this.props.mapState[1]);
+      document.getElementById('mapName').value = this.props.mapState[1].name;
+      this.map = this.props.mapState[1].api;
+      this.setState({editing: true});
     }
   }
   openMap(map) {
@@ -25,19 +28,27 @@ class MapUI extends React.Component {
     document.getElementById('container').appendChild(map.map);
   }
   initMap() {
+    document.getElementById('mapName').value = '';
     let mapObj = {center: {lat:29.4241, lng: -98.4936}, zoom: 11};
     let map = document.getElementById('map');
     let search = document.getElementById('search');
     let marker = document.getElementById('marker');
     this.map = new this.props.Maps(mapObj, map, search, marker);
+    this.setState({wayPoints: []});
   }
   saveMap(e) {
     e.preventDefault();
     let name = document.getElementById('mapName').value;
-    let data = {name: name, map: map};
-    this.newMap();
-    if(!name) alert('Please name your Map');
-    else this.props.saveMap(name, data);
+    let data = {name: name, map: map, api:this.map};
+    if(!name) {
+      alert('Please name your Map');
+    }else if(this.state.editing){
+      this.newMap();
+      this.props.editRoute(this.props.mapState[0],data);
+    }else {
+      this.newMap();
+      this.props.saveMap(data);
+    }
   }
   newMap() {
     document.getElementById('map').remove();
@@ -62,7 +73,6 @@ class MapUI extends React.Component {
   clearMap(){
     if(!confirm('Unsaved progress will be lost!')) return;
     this.initMap();
-    this.setState({wayPoints: []});
   }
   getRoute() {
     this.map.calculateRoute();

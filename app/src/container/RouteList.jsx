@@ -8,9 +8,9 @@ let RouteList = ({ routes, removeRoute, showMap } ) => {
     <ul>
       {routes.map((route) => {
         return(<li key={route.id}>
-          {route.name}
+          {route.data.name}
           <button onClick={()=>removeRoute(route.id)}>Remove</button>
-          <button onClick={()=>showMap(route.name, route.data)}>Show</button>
+          <button onClick={()=>showMap(route.id,route.data)}>Show</button>
         </li>)
       })}
     </ul>
@@ -23,10 +23,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   removeRoute: id => {
-    dispatch(removeRoute(id))
+    dispatch(removeRoute(id));
   },
-  showMap: (name, data) => {
-    dispatch(showMap(name, data))
+  showMap: (id,data) => {
+    dispatch(showMap(id,data));
   }
 });
 

@@ -1,7 +1,7 @@
 const map = (state = {}, action) => {
   switch (action.type) {
     case 'SHOW_MAP':
-      return action.data;
+      return [action.id, action.data];
     default:
       return state;
   }
