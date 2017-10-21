@@ -20,7 +20,7 @@ class MapUI extends React.Component {
       this.openMap(this.props.mapState[1]);
       document.getElementById('mapName').value = this.props.mapState[1].name;
       this.map = this.props.mapState[1].api;
-      this.setState({editing: true});
+      this.setState({editing: true, wayPoints: [... this.props.mapState[1].api.savedMarkers]});
     }
   }
   openMap(map) {
