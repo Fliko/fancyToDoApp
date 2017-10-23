@@ -12,6 +12,7 @@ class MapUI extends React.Component {
     };
     this.map;
   }
+  //Check if their browser supports html5 location services
   componentDidMount() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(()=>{return;});
@@ -20,6 +21,7 @@ class MapUI extends React.Component {
     }
     this.initMap();
   }
+  //When component update see if the map passed down from state has changed
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.mapState !== this.props.mapState) {
       this.openMap(this.props.mapState[1]);
@@ -41,6 +43,7 @@ class MapUI extends React.Component {
     this.map = new this.props.Maps(mapObj, map, search, marker);
     this.setState({wayPoints: [], editing: false});
   }
+  //when a map is saved we take the name, the whole map div and the class opetating on it
   saveMap(e) {
     e.preventDefault();
     let name = document.getElementById('mapName').value;
@@ -67,11 +70,13 @@ class MapUI extends React.Component {
     document.getElementById('container').appendChild(map);
     this.initMap();
   }
+  //this.map.saveMarker returns the currently searched marker
   saveMarker(e) {
     e.preventDefault();
     this.setState({wayPoints: [... this.state.wayPoints, this.map.saveMarker()]});
     document.getElementById('search').value = '';
   }
+  //this.map.removeMarker returns the marker selected for removal
   removeMarker(marker) {
     this.setState({wayPoints: this.map.removeMarker(marker)})
   }

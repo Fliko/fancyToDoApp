@@ -7,15 +7,10 @@ Our spec in user voice:
 >
 >Use the Google Maps JavaScript API to create an app which will let you drop a pin on a few  locations, click a button, and then suggest the most efficient (by time) way to visit all these places.  Your application should have a view with a history of all these times/routes. If you select a route in the history it should show the the route/time on the map.
 
-## Tasks
-- [x] Init react/redux and webpack dev and prod configurations and make them easily swappable
-- [x] Create a simple todo application
-  - [x] Application accepts input from a text field
-  - [x] Submitted input is displayed in a list below
-  - [x] Submitted tasks can be removed
-- [ ] Integrate in google API
-  - [ ] Add places autocomplete to text input
-  - [ ] Add in google maps
-  - [ ] Keep several markers on a map
-  - [ ] Calculate shortest path between all markers
-  - [ ] Give map a name and save as submitted task
+## Building
+
+To start this project in a dev environment just run `npm start` and it will be built hosted on port 8080. If it doesn't run make sure the port is clear. You can also use `npm run prod` when deploying the app.
+
+## Philosophy
+
+This app was built with the goal of taking the average Redux todo list and giving it a UI that could be easily dropped into any todo list application with minimal effort. If you take a look at the container component MapInterface you will see that the Redux state is abstracted away from the map UI in order to create a degree of separation. The goal of this separation is to increase reliability, allow for more controlled growth, easier debugging, and modularity.
