@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const baseConfig = require('./base.config.js');
 
 module.exports = merge(baseConfig, {
@@ -25,6 +26,13 @@ module.exports = merge(baseConfig, {
         if_return: true,
         join_vars: true
       }
-    })
+    }),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+  })
   ]
 });
