@@ -6,6 +6,6 @@ import App from '../src/components/App';
 const wrapper = shallow(<App />);
 describe('Init', () => {
   it('renders app', () => {
-    expect(wrapper.find('.init').exists()).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 });

@@ -39,8 +39,7 @@ class MapUI extends React.Component {
     let mapObj = {center: {lat:29.4241, lng: -98.4936}, zoom: 11};
     let map = document.getElementById('map');
     let search = document.getElementById('search');
-    let marker = document.getElementById('marker');
-    this.map = new this.props.Maps(mapObj, map, search, marker);
+    this.map = new this.props.Maps(mapObj, map, search);
     this.setState({wayPoints: [], editing: false});
   }
   //when a map is saved we take the name, the whole map div and the class opetating on it

@@ -6,7 +6,7 @@ const routes = (state = [], action) => {
       return state.filter((route)=> route.id !== action.id);
     case 'EDIT_ROUTE':
     return state.map(route =>(
-      route.id === action.id ? { data: action.data  } : route
+      route.id === action.id ? {id:action.id, data: action.data  } : route
     ));
     default:
       return state;
