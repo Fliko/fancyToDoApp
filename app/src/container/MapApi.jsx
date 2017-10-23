@@ -49,7 +49,7 @@ MapApi.prototype.calculateRoute = function () {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(this.getRoute.bind(this));
   } else {
-    return;
+    alert('We are sorry, we currently use your current location as the start and end points of our routes. In order to use this app please turn on location services from the icon left of the site url. Thank you.');
   }
 };
 MapApi.prototype.saveMarker = function(marker = this.marker, infowindow = this.infowindow) {

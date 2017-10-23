@@ -13,6 +13,11 @@ class MapUI extends React.Component {
     this.map;
   }
   componentDidMount() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(()=>{return;});
+    } else {
+      alert('I am sorry your browser does not support location services which we use to calculate routes and hone our searching service. Please update or switch browsers.');
+    }
     this.initMap();
   }
   componentDidUpdate(prevProps, prevState) {
