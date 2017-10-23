@@ -34,7 +34,7 @@ class MapUI extends React.Component {
     let search = document.getElementById('search');
     let marker = document.getElementById('marker');
     this.map = new this.props.Maps(mapObj, map, search, marker);
-    this.setState({wayPoints: []});
+    this.setState({wayPoints: [], editing: false});
   }
   saveMap(e) {
     e.preventDefault();
@@ -72,7 +72,7 @@ class MapUI extends React.Component {
   }
   clearMap(){
     if(!confirm('Unsaved progress will be lost!')) return;
-    this.initMap();
+    this.newMap();
   }
   getRoute() {
     this.map.calculateRoute();
