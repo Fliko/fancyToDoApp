@@ -19,10 +19,17 @@ let MapApi = function(mapObj, mapElement, searchElement) {
   this.infowindow = new google.maps.InfoWindow();       //current infowindow
   this.marker = new google.maps.Marker({map: this.map});//current marker
 
+<<<<<<< HEAD
   this.map.addListener('click', (event) => {
     this.addPlace(event);
   })
   this.map.addListener('bounds_changed', (event) => {
+=======
+  google.maps.event.addListener(this.map,'click', (event) => {
+    this.addPlace(event);
+  })
+  google.maps.event.addListener(this.map, 'bounds_changed', (event) => {
+>>>>>>> df796b28a86d85c20ea750c0acbc722a8b4e23dc
     if (this.map.getZoom() > 13) this.map.setZoom(13);
   });
   this.autocomplete.addListener('place_changed', () => {//when a place is selected find that place and set
