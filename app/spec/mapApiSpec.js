@@ -28,7 +28,7 @@ describe('MapApi', () => {
     expect(api.saveMarker(marker1,infowindow1)).eql([infowindow1,marker1]);
   });
   it('should remove a marker',()=>{
-    let marker = ['marker']
+    let marker = [new google.maps.InfoWindow,new  google.maps.Marker]
     api.savedMarkers.push(marker)
     api.removeMarker(marker);
     expect(api.savedMarkers).eql([])
@@ -37,8 +37,6 @@ describe('MapApi', () => {
     sinon.stub(api,"setBounds").returns(0);
     sinon.stub(api.autocomplete,"getPlace").returns({geometry:1});
     api.changePlace();
-    expect(api.infowindow.close.called).equal(true);
-    expect(api.marker.setVisible.calledWith(false)).equal(true);
     expect(google.maps.InfoWindow.calledTwice).equal(true)
     expect(google.maps.Marker.calledWith({map: api.map})).equal(true)
   });
@@ -76,6 +74,7 @@ describe('MapApi', () => {
 function mockGoogle() {
   return {Map:sinon.spy(function(){
     this.controls={TOP_RIGHT:[]};
+    this.addListener = sinon.spy();
     this.fitBounds=()=>{};
     return;
   }),
@@ -102,6 +101,9 @@ function mockGoogle() {
     this.getPlace=()=>{};
   })},
   ControlPosition:{TOP_RIGHT:'TOP_RIGHT'},
-  LatLngBounds:sinon.spy(function(){this.extend = sinon.spy()})
+  LatLngBounds:sinon.spy(function(){this.extend = sinon.spy()}),
+  event:sinon.spy(function(){
+    this.addListener = sinon.spy();
+  }),
   }
 }
