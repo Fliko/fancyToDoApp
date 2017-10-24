@@ -80,10 +80,10 @@ MapApi.prototype.setBounds = function() {
 //finds next place searched for
 MapApi.prototype.changePlace = function() {
   //gets rid of other searched places
-  this.marker = new google.maps.Marker({map: this.map});
-  this.infowindow = new google.maps.InfoWindow();
   this.infowindow.close();
   this.marker.setVisible(false);
+  this.marker = new google.maps.Marker({map: this.map});
+  this.infowindow = new google.maps.InfoWindow();
 
   //shows saved searches
   for(let i = 0; i < this.savedMarkers.length;i++) {

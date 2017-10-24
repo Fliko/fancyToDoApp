@@ -8,7 +8,10 @@ configure({ adapter: new Adapter() });
 
 const { JSDOM } = require('jsdom');
 
-const jsdom = new JSDOM('<!doctype html><html><body><div id="app"></div></body></html>');
+const jsdom = new JSDOM(`<body><div id="app">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhwZPT5v10wYdgqyuIbtUXuI1Hc83MOn0&libraries=places"></script>
+</div></body>`, { runScripts: "dangerously", resources: "usable" });
+jsdom.window.document.body.children.length === 2
 const { window } = jsdom;
 
 function copyProps(src, target) {
